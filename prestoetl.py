@@ -236,18 +236,6 @@ class PrestoETL():
         return logger
 
 
-    def __get_mysql_connection(self):
-        return pymysql.connect(
-            host='fp-bd5',
-            port=3306,
-            user='etl',
-            password='etl',
-            db='etl',
-            charset='utf8',
-            cursorclass=pymysql.cursors.DictCursor
-        )
-
-
     def __get_presto_connection(self):
         return prestodb.dbapi.connect(
             host=self.__args.presto_host,
@@ -431,34 +419,6 @@ class PrestoETL():
             self.exec_sql_ignore_result(sql_name)
 
 
-    def save_placeholders(self):
-        placeholder_save = {}
-
-        if self.__args.placeholder_save is not None and self.__placeholders is not None:
-            for ps in self.__args.placeholder_save:
-                if ps in self.__placeholders.keys():
-                    placeholder_save[ps] = self.__placeholders[ps]
-
-        if len(placeholder_save) != 0:
-            placeholder_save_json = json.dumps(placeholder_save)
-            try:
-                mysql_connection = self.__get_mysql_connection()
-                with mysql_connection.cursor() as cursor:
-                    sql = """
-                        INSERT INTO placeholder_record 
-                        VALUES ('{}','{}')
-                        ON DUPLICATE KEY UPDATE placeholders = '{}'
-                    """.format(
-                        self.__args.placeholder_save_id,
-                        placeholder_save_json,
-                        placeholder_save_json,
-                    )
-                    cursor.execute(sql)
-                mysql_connection.commit()
-            finally:
-                mysql_connection.close()
-
-
     def execute(self):
         with self.__get_presto_connection() as presto_connection:
 
@@ -474,8 +434,6 @@ class PrestoETL():
                 else:
                     self.fill_placeholders(sql_name)
                     self.exec_sql_ignore_result(presto_cursor, sql_name)
-            
-        self.save_placeholders()
 
         self.__logger.info("============ Finish =============")
 
