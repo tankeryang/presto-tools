@@ -70,14 +70,14 @@ class PrestoETL():
 
     example
     -------
-    python prestoetl.py \
-        --presto.host 10.10.22.5 \
-        --presto.port 10300 \
-        --presto.user dev \
-        --presto.catalog dev_hive \
-        --presto.schema ods_crm \
-        --sql.url.prefix http://gitlab.project.company.com/big-data/file-repo/raw/master/sql/etl/data_warehouse/ods/crm \
-        --sql.dir member_info \
+    python prestoetl.py \\
+        --presto.host 10.10.22.5 \\
+        --presto.port 10300 \\
+        --presto.user dev \\
+        --presto.catalog dev_hive \\
+        --presto.schema ods_crm \\
+        --sql.url.prefix http://gitlab.project.company.com/big-data/file-repo/raw/master/sql/etl/data_warehouse/ods/crm \\
+        --sql.dir member_info \\
         --sql.name increment
 
     example for azkaban properties
@@ -94,14 +94,14 @@ class PrestoETL():
 
     etl.script.dir=/opt
 
-    cmd=python3 ${etl.script.dir}/prestoetl.py \
-        --presto.host ${presto.host} \
-        --presto.port ${presto.port} \
-        --presto.user ${presto.user} \
-        --presto.catalog ${presto.catalog} \
-        --presto.schema ${presto.schema} \
-        --sql.url.prefix ${sql.url.prefix} \
-        --sql.dir ${sql.dir} \
+    cmd=python3 ${etl.script.dir}/prestoetl.py \\
+        --presto.host ${presto.host} \\
+        --presto.port ${presto.port} \\
+        --presto.user ${presto.user} \\
+        --presto.catalog ${presto.catalog} \\
+        --presto.schema ${presto.schema} \\
+        --sql.url.prefix ${sql.url.prefix} \\
+        --sql.dir ${sql.dir} \\
         --sql.name ${sql.name}
     """
 
