@@ -15,12 +15,10 @@
 - 所有 ETL 相关 SQL 单独维护在 GitLab 的一个 repo 上
 - 数仓的结构做了分层: `ods`, `cdm`, `ads`，SQL 脚本文件的命名为 `fully*`, `increment*`，对应 __全量__，__增量__，这种结构同时体现在维护 SQL 脚本的 repo 的目录结构上
 
-因此需要一个带参数的脚本型的工具来通过请求 GitLab 对应 SQL 的 url，然后发送到 presto 执行，azkaban 调度时只需配置好相关的参数即可。
+因此需要一个带参数的脚本型的工具来通过请求 GitLab 对应 SQL 的 url，然后通过 presto-python-client 发送到 presto 执行，azkaban 调度时只需配置好相关的参数即可。
 因为公司一些项目的 ETL 需求比较刁钻，而 presto 只能执行 SQL，因此脚本的参数会有些繁杂，特别是 `--placeholder.*` 相关的参数，有觉得不解的查看代码的注释即可
 
 ### help & usage
-
-支持打日志到 `./etc/log/etl.log` 里
 
 - help:
 
@@ -103,7 +101,6 @@ $ python3 prestoetl.py --usage
 
     example for azkaban properties
     ------------------------------
-
     presto.host=10.10.22.5
     presto.port=10300
     presto.user=dev

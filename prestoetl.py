@@ -62,23 +62,47 @@ class PrestoETL():
     }
 
     USAGE = """
-    python prestoetl.py <command> [arguments]
+    python prestoetl.py <option> [arguments]
 
     for help
     --------
     python prestoetl.py -h
 
-    example for azkaban
-    -------------------
-    python prestoetl.py \\
-        --presto.host 10.10.22.5 \\
-        --presto.port 10300 \\
-        --presto.user dev \\
-        --presto.catalog dev_hive \\
-        --presto.schema ods_crm \\
-        --sql.url.prefix http://gitlab.fpsit.trendy-global.com/big-data/file-repo/raw/${env}/sql/etl/data_warehouse/ods/crm \\
-        --sql.dir member_info \\
+    example
+    -------
+    python prestoetl.py \
+        --presto.host 10.10.22.5 \
+        --presto.port 10300 \
+        --presto.user dev \
+        --presto.catalog dev_hive \
+        --presto.schema ods_crm \
+        --sql.url.prefix http://gitlab.project.company.com/big-data/file-repo/raw/master/sql/etl/data_warehouse/ods/crm \
+        --sql.dir member_info \
         --sql.name increment
+
+    example for azkaban properties
+    ------------------------------
+    presto.host=10.10.22.5
+    presto.port=10300
+    presto.user=dev
+    presto.catalog=dev_hive
+    presto.schema=ods_crm
+    git.branch=dev
+    sql.url.prefix=http://gitlab.project.company.com/big-data/file-repo/raw/${git.branch}/sql/etl/data_warehouse/ods/crm
+    sql.dir=member_info
+    sql.name=increment
+
+    etl.script.dir=/opt
+
+    cmd=python3 ${etl.script.dir}/prestoetl.py \
+        --presto.host ${presto.host} \
+        --presto.port ${presto.port} \
+        --presto.user ${presto.user} \
+        --presto.catalog ${presto.catalog} \
+        --presto.schema ${presto.schema} \
+        --sql.url.prefix ${sql.url.prefix} \
+        --sql.dir ${sql.dir} \
+        --sql.name ${sql.name}
     """
 
     def __init__(self):
@@ -90,7 +114,7 @@ class PrestoETL():
         self.__check_args()
 
         self.__session = self.__set_session()
-        self.__logger = self.__set_logger()
+        # self.__logger = self.__set_logger()
         self.__sql_file = {}
         self.__placeholders = {}
         self.__placeholder_loop = {}
@@ -117,7 +141,7 @@ class PrestoETL():
         """
         设置参数选项
         """
-        parser = argparse.ArgumentParser(prog="python3 sql-flow-excutor.py", description="This is a python etl script")
+        parser = argparse.ArgumentParser(prog="python3 prestoetl.py", description="This is a python etl script")
 
         # set usage
         parser.add_argument('--usage', action='store_true', dest='usage', default=False, help="show usage")
@@ -260,7 +284,7 @@ class PrestoETL():
         if response.status_code == 200:
             return response.text
         else:
-            self.__logger.error(
+            logging.error(
                 "{sql_url}: {status_code}, {reason}".format(
                     sql_url=sql_url, status_code=response.status_code, reason=response.reason
                 )
@@ -287,6 +311,8 @@ class PrestoETL():
 
 
     def exec_sql(self, presto_cursor, sql):
+        print("Execute sql: \n")
+        print("{} \n\n".format(sql))
         presto_cursor.execute(sql)
 
 
@@ -312,7 +338,7 @@ class PrestoETL():
             )
             sqls = self.get_sql(sql_url).split(';')
 
-            self.__logger.info("Get placeholder from {}".format(sql_url))
+            logging.info("Get placeholder from {}".format(sql_url))
 
             if sqls:
                 for sql in sqls:
@@ -321,7 +347,7 @@ class PrestoETL():
                         self.exec_sql(presto_cursor, sql)
                         time.sleep(1.5)
                         result = presto_cursor.fetchone()
-                        self.__logger.info(result)
+                        print(result)
                         if result:
                             i = 0
                             while i < len(result):
@@ -364,10 +390,8 @@ class PrestoETL():
             for sql in sqls:
                 sql = sql.strip()
                 if sql:
-                    self.__logger.info("Execute sql: \n")
-                    self.__logger.info("{} \n".format(sql))
                     self.exec_sql(presto_cursor, sql)
-                    time.sleep(1.5)
+                    print(presto_cursor.fetchall())
 
 
     def get_placeholder_loop(self):
@@ -435,7 +459,7 @@ class PrestoETL():
                     self.fill_placeholders(sql_name)
                     self.exec_sql_ignore_result(presto_cursor, sql_name)
 
-        self.__logger.info("============ Finish =============")
+        logging.info("============ Finish =============")
 
     
     def show_usage(self):
