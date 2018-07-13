@@ -233,31 +233,31 @@ class PrestoETL():
         return session
 
     
-    def __set_logger(self):
-        ## 定义Logger对象
-        logger = logging.getLogger()
-        logger.setLevel(level=logging.INFO)
+    # def __set_logger(self):
+    #     ## 定义Logger对象
+    #     logger = logging.getLogger()
+    #     logger.setLevel(level=logging.INFO)
 
-        logfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'etc', 'log', 'etl.log'))
+    #     logfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'etc', 'log', 'etl.log'))
 
-        if not os.path.exists(logfile):
-            os.mknod(logfile)
-            os.chmod(logfile, 777)
+    #     if not os.path.exists(logfile):
+    #         os.mknod(logfile)
+    #         os.chmod(logfile, 777)
 
-        formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
-        ## 获取文件logger句柄
-        fh = logging.FileHandler(logfile, mode='a')
-        fh.setLevel(level=logging.INFO)
-        fh.setFormatter(formatter)  
-        ## 获取终端logger句柄
-        ch = logging.StreamHandler()  
-        ch.setLevel(logging.INFO)
-        ch.setFormatter(formatter)
-        ## 添加至logger 
-        logger.addHandler(fh)  
-        logger.addHandler(ch)
+    #     formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
+    #     ## 获取文件logger句柄
+    #     fh = logging.FileHandler(logfile, mode='a')
+    #     fh.setLevel(level=logging.INFO)
+    #     fh.setFormatter(formatter)  
+    #     ## 获取终端logger句柄
+    #     ch = logging.StreamHandler()  
+    #     ch.setLevel(logging.INFO)
+    #     ch.setFormatter(formatter)
+    #     ## 添加至logger 
+    #     logger.addHandler(fh)  
+    #     logger.addHandler(ch)
 
-        return logger
+    #     return logger
 
 
     def __get_presto_connection(self):
