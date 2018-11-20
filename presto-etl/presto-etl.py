@@ -65,7 +65,7 @@ class PrestoETL():
 
     for help
     --------
-    python prestoetl.py -h
+    python presto-etl.py -h
 
     example
     -------

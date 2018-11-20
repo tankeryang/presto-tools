@@ -19,9 +19,9 @@ azkaban 调度时只需配置好相关的参数即可
 - help:
 
 ```s
-$ python3 prestoetl.py -h
+$ python3 presto-etl.py -h
 
-usage: python3 prestoetl.py [-h] [--usage] [--presto.host PRESTO_HOST]
+usage: python3 presto-etl.py [-h] [--usage] [--presto.host PRESTO_HOST]
                             [--presto.port PRESTO_PORT]
                             [--presto.user PRESTO_USER]
                             [--presto.catalog PRESTO_CATALOG]
@@ -60,17 +60,17 @@ optional arguments:
 - usage:
 
 ```s
-$ python3 prestoetl.py --usage
+$ python3 presto-etl.py --usage
 
-    python prestoetl.py <option> [arguments]
+    python presto-etl.py <option> [arguments]
 
     for help
     --------
-    python prestoetl.py -h
+    python3 presto-etl.py -h
 
     example
     -------
-    python prestoetl.py \
+    python3 presto-etl.py \
         --presto.host 10.10.22.5 \
         --presto.port 10300 \
         --presto.user dev \
