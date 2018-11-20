@@ -77,7 +77,7 @@ class PrestoETL():
         --presto.schema ods_test \\
         --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/test \\
         --sql.dir table_name \\
-        --sql.name create fully
+        --sql.names create fully
 
     example for azkaban properties
     ------------------------------
@@ -89,7 +89,7 @@ class PrestoETL():
     git.branch=dev
     sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/test
     sql.dir=test
-    sql.name=create fully
+    sql.names=create fully
 
     python.etl.dir=/opt
 
@@ -101,7 +101,7 @@ class PrestoETL():
         --presto.schema ${presto.schema} \\
         --sql.url.prefix ${sql.url.prefix} \\
         --sql.dir ${sql.dir} \\
-        --sql.name ${sql.name}
+        --sql.names ${sql.names}
     """
 
     def __init__(self):
