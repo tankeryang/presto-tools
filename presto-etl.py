@@ -352,7 +352,8 @@ class PrestoETL():
 
 
     def fill_placeholder(sql, **kargs):
-        
+        for key in kargs.keys():
+            sql.replace()
 
 
     def exec_sql_with_placeholders(self, presto_cursor, sql_name):
