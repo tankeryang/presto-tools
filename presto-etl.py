@@ -353,7 +353,8 @@ class PrestoETL():
 
     def fill_placeholder(sql, **kargs):
         for key in kargs.keys():
-            sql.replace()
+            sql.replace('{' + key + '}', kargs[key])
+        return sql
 
 
     def exec_sql_with_placeholders(self, presto_cursor, sql_name):
@@ -362,7 +363,7 @@ class PrestoETL():
         """
         for values in self.__placeholder_group[sql_name]['values']:
             fill_dict = dict(zip(self.__placeholder_group[sql_name]['keys'], values))
-            self.__sql_file[sql_name] = self.__sql_file[sql_name].format(**fill_dict)
+            self.__sql_file[sql_name] = self.fill_placeholder(self.__sql_file[sql_name], **fill_dict)
             
             self.exec_sql(presto_cursor, self.__sql_file[sql_name])
 
