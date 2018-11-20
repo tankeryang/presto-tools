@@ -37,9 +37,9 @@ class PrestoETL():
             使用 argparse 进行参数解析
             选项前需加 '--': [ --presto.host ... ]
             --sql.name 可接受多个参数: --sql.name create_table fully ..
-            --placeholder.loop 可接受多个参数: --placeholder.loop placeholder1:sql1 placeholder2:sql1 placeholder3:sql2 ..
+            --placeholder.config 可接受多个参数: --placeholder.config fully:fully-placeholder fully-fully-placeholder_2 ..
 
-    .. version v1.0
+    .. version v2.0
     """
 
     # 执行脚本必须要带的参数
@@ -74,10 +74,10 @@ class PrestoETL():
         --presto.port 10300 \\
         --presto.user dev \\
         --presto.catalog dev_hive \\
-        --presto.schema ods_crm \\
-        --sql.url.prefix http://gitlab.project.company.com/big-data/file-repo/raw/master/sql/etl/data_warehouse/ods/crm \\
-        --sql.dir member_info \\
-        --sql.name increment
+        --presto.schema ods_test \\
+        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/test \\
+        --sql.dir table_name \\
+        --sql.name create fully
 
     example for azkaban properties
     ------------------------------
@@ -85,15 +85,15 @@ class PrestoETL():
     presto.port=10300
     presto.user=dev
     presto.catalog=dev_hive
-    presto.schema=ods_crm
+    presto.schema=ods_test
     git.branch=dev
-    sql.url.prefix=http://gitlab.project.company.com/big-data/file-repo/raw/${git.branch}/sql/etl/data_warehouse/ods/crm
-    sql.dir=member_info
-    sql.name=increment
+    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/test
+    sql.dir=test
+    sql.name=create fully
 
-    etl.script.dir=/opt
+    python.etl.dir=/opt
 
-    cmd=python3 ${etl.script.dir}/prestoetl.py \\
+    cmd=python3 ${python.etl.dir}/presto-etl.py \\
         --presto.host ${presto.host} \\
         --presto.port ${presto.port} \\
         --presto.user ${presto.user} \\
@@ -351,21 +351,21 @@ class PrestoETL():
             self.__placeholder_group[sql_name]['values'] = placeholder_values_group_list
 
 
-    def fill_placeholder(sql, **kargs):
-        for key in kargs.keys():
-            sql.replace('{' + key + '}', kargs[key])
-        return sql
-
-
     def exec_sql_with_placeholders(self, presto_cursor, sql_name):
         """
         将 placeholder 的值填充到 sql 字符串里，并执行
+
+        :params presto_cursor: prestodb.dbapi.connect.cursor
+        :params sql_name: sql 名
         """
         for values in self.__placeholder_group[sql_name]['values']:
             fill_dict = dict(zip(self.__placeholder_group[sql_name]['keys'], values))
-            self.__sql_file[sql_name] = self.fill_placeholder(self.__sql_file[sql_name], **fill_dict)
+            sql = self.__sql_file[sql_name]
             
-            self.exec_sql(presto_cursor, self.__sql_file[sql_name])
+            for key in fill_dict.keys():
+                sql = sql.replace('{' + key + '}', str(fill_dict[key]))
+            
+            self.exec_sql(presto_cursor, sql)
 
 
     def execute(self):
@@ -378,10 +378,10 @@ class PrestoETL():
         self.get_sql_file()
         self.get_placeholder_config(presto_engine)
 
-        if self.__placeholder_config is not None:
+        if len(self.__placeholder_config) != 0:
             self.get_placeholder_group()
 
-        if self.__placeholder_group is not None:
+        if len(self.__placeholder_group) != 0:
             for sql_name in self.__sql_file.keys():
                 if sql_name in self.__placeholder_group.keys():
                     self.exec_sql_with_placeholders(presto_cursor, sql_name)
