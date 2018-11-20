@@ -351,6 +351,10 @@ class PrestoETL():
             self.__placeholder_group[sql_name]['values'] = placeholder_values_group_list
 
 
+    def fill_placeholder(sql, **kargs):
+        
+
+
     def exec_sql_with_placeholders(self, presto_cursor, sql_name):
         """
         将 placeholder 的值填充到 sql 字符串里，并执行
