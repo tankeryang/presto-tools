@@ -3,10 +3,7 @@ import sys
 import argparse
 import logging
 import prestodb
-import pymysql
 import requests
-import json
-import time
 import pandas as pd
 import itertools as it
 from sqlalchemy import create_engine
