@@ -193,8 +193,8 @@ class PrestoETL():
         """
         session = requests.session()
         request_retry = requests.adapters.HTTPAdapter(max_retries=3)
-        session.mount('https://',request_retry)
-        session.mount('http://',request_retry)
+        session.mount('https://', request_retry)
+        session.mount('http://', request_retry)
 
         return session
 
@@ -388,7 +388,7 @@ class PrestoETL():
             for sql_name in self.__sql_file.keys():
                 self.exec_sql(presto_cursor, self.__sql_file[sql_name])
 
-        print("============ Finish =============")
+        print("============= Finish =============")
 
     
     def show_usage(self):
