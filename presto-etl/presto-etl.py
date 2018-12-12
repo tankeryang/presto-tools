@@ -376,7 +376,7 @@ class PrestoETL():
         
         self.get_sql_file()
         self.get_placeholder_config(presto_engine)
-
+        print(self.__sql_file.keys())
         if len(self.__placeholder_config) != 0:
             self.get_placeholder_group()
 
