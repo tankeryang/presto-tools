@@ -248,8 +248,10 @@ class PrestoETL():
         .. note:
             self.__sql_file 为 dict 类型，格式为 {sql_name: sql_text}
         """
+        print(self.__args.sql_names)
         sql_file = {}
         for sql_name in self.__args.sql_names:
+            print(sql_name)
             sql_file[sql_name] = self.get_sql(sql_name)
 
         self.__sql_file = sql_file
@@ -374,7 +376,7 @@ class PrestoETL():
         
         self.get_sql_file()
         self.get_placeholder_config(presto_engine)
-        print(self.__sql_file)
+
         if len(self.__placeholder_config) != 0:
             self.get_placeholder_group()
 
