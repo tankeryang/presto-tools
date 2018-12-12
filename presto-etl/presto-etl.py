@@ -148,7 +148,7 @@ class PrestoETL():
         )
         parser.add_argument('--sql.dir', action='store', dest='sql_dir', help="set the parent diretory for sql file")
         parser.add_argument(
-            '--sql.names', action='store', dest='sql_names', nargs='*',
+            '--sql.names', action='append', dest='sql_names', nargs='*',
             help="set the sql file name for sql file, avalible to recieve multiple argment"
         )
 
