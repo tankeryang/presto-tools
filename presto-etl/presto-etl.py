@@ -249,12 +249,9 @@ class PrestoETL():
             self.__sql_file 为 dict 类型，格式为 {sql_name: sql_text}
         """
         print(self.__args.sql_names)
-        sql_file = {}
         for sql_name in self.__args.sql_names:
             print(sql_name)
-            sql_file[sql_name] = self.get_sql(sql_name)
-
-        self.__sql_file = sql_file
+            self.__sql_file[sql_name] = self.get_sql(sql_name)
 
 
     def exec_sql(self, presto_cursor, sql):
