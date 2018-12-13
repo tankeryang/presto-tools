@@ -10,9 +10,16 @@
 
 ## Installation
 
-### git
+### git (on `http://gitlab.fp.bd14.com`)
 
 ```shell
 > $ git clone http://gitlab.fp.bd14.com/bigdata/basic-build.git
+> $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
+```
+
+### git (on `https://code.aliyun.com`)
+
+```shell
+> $ git clone https://code.aliyun.com/trendy-bigdata/presto-tools
 > $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
 ```
