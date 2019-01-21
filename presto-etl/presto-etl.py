@@ -29,7 +29,7 @@ class PrestoETL():
         ```
     
     - Command:
-        执行: python3 prestoetl.py -h 查看参数用法
+        执行: python3 presto-etl.py -h 查看参数用法
         特性: 
             使用 argparse 进行参数解析
             选项前需加 '--': [ --presto.host ... ]
@@ -52,7 +52,7 @@ class PrestoETL():
     }
 
     # 可选参数
-    # placeholder为中间变量，具体意义可参考方法 `get_placeholdes()` 的注释
+    # placeholder为中间变量，具体意义可参考方法 `get_placeholder_config()` 的注释
     OPTIONAL_ARGS = {
         '--placeholder.config': 'placeholder_config',
     }
@@ -62,17 +62,17 @@ class PrestoETL():
 
     for help
     --------
-    python presto-etl.py -h
+    python3 presto-etl.py -h
 
     example
     -------
-    python prestoetl.py \\
+    python3 presto-etl.py \\
         --presto.host 10.10.22.5 \\
         --presto.port 10300 \\
         --presto.user dev \\
         --presto.catalog dev_hive \\
         --presto.schema ods_test \\
-        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/test \\
+        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/some_system \\
         --sql.dir table_name \\
         --sql.names create fully
 
@@ -84,8 +84,8 @@ class PrestoETL():
     presto.catalog=dev_hive
     presto.schema=ods_test
     git.branch=dev
-    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/test
-    sql.dir=test
+    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/some_system
+    sql.dir=table_name
     sql.names=create fully
 
     python.etl.dir=/opt
@@ -128,7 +128,7 @@ class PrestoETL():
         """
         设置参数选项
         """
-        parser = argparse.ArgumentParser(prog="python3 prestoetl.py", description="This is a python etl script")
+        parser = argparse.ArgumentParser(prog="python3 presto-etl.py", description="This is a python etl script")
 
         # set usage
         parser.add_argument('--usage', action='store_true', dest='usage', default=False, help="show usage")
@@ -144,18 +144,20 @@ class PrestoETL():
         parser.add_argument('--presto.schema', action='store', dest='presto_schema', help="set presto schema")
         parser.add_argument(
             '--sql.url.prefix', action='store', dest='sql_url_prefix',
-            help="set the gitlab url (route to the system name [e.g. crm, mms, fpos etc.]) for sql file"
+            help="set the git repo url. (route to the system name [e.g. crm, mms, tpos, etc.]) for sql file"
         )
-        parser.add_argument('--sql.dir', action='store', dest='sql_dir', help="set the parent diretory for sql file")
+        parser.add_argument(
+            '--sql.dir', action='store', dest='sql_dir',
+            help="set the parent diretory for sql file (the dir name is always be the table name.)")
         parser.add_argument(
             '--sql.names', action='store', dest='sql_names', nargs='*',
-            help="set the sql file name for sql file, avalible to recieve multiple argment"
+            help="set the sql file name for sql file, avaliable to recieve multiple argment. (the sql name is always be the function name, like create, fully, loop, etc.)"
         )
 
         # set optinal arguments
         parser.add_argument(
             '--placeholder.config', action='store', dest='placeholder_config', nargs='*',
-            help="set the placeholder config"
+            help="set the placeholder config. (the format of this option is <sql.name>:<placeholder.sql.name>. see the annotate of function get_placeholder_config() for more detail to use it)"
         )
 
         args = parser.parse_args()
