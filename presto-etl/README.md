@@ -22,14 +22,14 @@ azkaban 调度时只需配置好相关的参数即可
 $ python3 presto-etl.py -h
 
 usage: python3 presto-etl.py [-h] [--usage] [--presto.host PRESTO_HOST]
-                            [--presto.port PRESTO_PORT]
-                            [--presto.user PRESTO_USER]
-                            [--presto.catalog PRESTO_CATALOG]
-                            [--presto.schema PRESTO_SCHEMA]
-                            [--sql.url.prefix SQL_URL_PREFIX]
-                            [--sql.dir SQL_DIR]
-                            [--sql.names [SQL_NAMES [SQL_NAMES ...]]]
-                            [--placeholder.config [PLACEHOLDER_CONFIG [PLACEHOLDER_CONFIG ...]]]
+                             [--presto.port PRESTO_PORT]
+                             [--presto.user PRESTO_USER]
+                             [--presto.catalog PRESTO_CATALOG]
+                             [--presto.schema PRESTO_SCHEMA]
+                             [--sql.url.prefix SQL_URL_PREFIX]
+                             [--sql.dir SQL_DIR]
+                             [--sql.names [SQL_NAMES [SQL_NAMES ...]]]
+                             [--placeholder.config [PLACEHOLDER_CONFIG [PLACEHOLDER_CONFIG ...]]]
 
 This is a python etl script
 
@@ -47,14 +47,19 @@ optional arguments:
   --presto.schema PRESTO_SCHEMA
                         set presto schema
   --sql.url.prefix SQL_URL_PREFIX
-                        set the gitlab url (route to the system name [e.g.
-                        crm, mms, fpos etc.]) for sql file
-  --sql.dir SQL_DIR     set the parent diretory for sql file
+                        set the git repo url. (route to the system name [e.g.
+                        crm, mms, tpos, etc.]) for sql file
+  --sql.dir SQL_DIR     set the parent diretory for sql file (the dir name is
+                        always be the table name.)
   --sql.names [SQL_NAMES [SQL_NAMES ...]]
-                        set the sql file name for sql file, avalible to
-                        recieve multiple argment
+                        set the sql file name for sql file, avaliable to
+                        recieve multiple argment. (the sql name is always be
+                        the function name, like create, fully, loop, etc.)
   --placeholder.config [PLACEHOLDER_CONFIG [PLACEHOLDER_CONFIG ...]]
-                        set the placeholder config
+                        set the placeholder config. (the format of this option
+                        is <sql.name>:<placeholder.sql.name>. see the annotate
+                        of function get_placeholder_config() for more detail
+                        to use it)
 ```
 
 - usage:
@@ -62,7 +67,7 @@ optional arguments:
 ```s
 $ python3 presto-etl.py --usage
 
-    python presto-etl.py <option> [arguments]
+    python prestoetl.py <option> [arguments]
 
     for help
     --------
@@ -76,7 +81,7 @@ $ python3 presto-etl.py --usage
         --presto.user dev \
         --presto.catalog dev_hive \
         --presto.schema ods_test \
-        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/test \
+        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/some_system \
         --sql.dir table_name \
         --sql.names create fully
 
@@ -88,8 +93,8 @@ $ python3 presto-etl.py --usage
     presto.catalog=dev_hive
     presto.schema=ods_test
     git.branch=dev
-    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/test
-    sql.dir=test
+    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/some_system
+    sql.dir=table_name
     sql.names=create fully
 
     python.etl.dir=/opt
