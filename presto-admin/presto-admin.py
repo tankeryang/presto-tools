@@ -3,7 +3,6 @@ import sys
 import argparse
 import logging
 import textwrap
-import configparser
 
 
 class PrestoAdmin():
@@ -16,7 +15,7 @@ class PrestoAdmin():
         初始化时将参数通过 self.__set_args() 绑定到 self.__args 变量上
         """
         self.__args = self.__set_args()
-        self.__config = configparser.ConfigParser()
+        self.__check_args()
 
 
     def __set_args(self):
@@ -74,6 +73,13 @@ class PrestoAdmin():
         self.__args_dict = dict(zip(args_key, args_value))
 
         return args
+
+
+    def __check_args(self):
+        if self.__args.show_catalog is True:
+            self.show_catalog()
+        if self.__args.uname is True:
+            self.uname()
 
 
     def reload_catalog(self):
