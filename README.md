@@ -6,7 +6,7 @@
 
 - presto-etl
 
-- presto-manage
+- presto-admin
 
 ## Installation
 
