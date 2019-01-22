@@ -87,7 +87,7 @@ class PrestoAdmin():
         reload catalog file
         """
         if self.__args.reload_catalog is True:
-            os.system('fab reload_catalog')
+            os.system('fab reload catalog')
 
 
     def uname(self):
@@ -97,7 +97,7 @@ class PrestoAdmin():
     
     def show_catalog(self):
         if self.__args.show_catalog is True:
-            os.system('fab show_catalog')
+            os.system('fab show catalog')
 
 
 if __name__ == '__main__':
