@@ -4,6 +4,7 @@ import argparse
 import logging
 import prestodb
 import requests
+import textwrap
 import pandas as pd
 import itertools as it
 from sqlalchemy import create_engine
@@ -58,47 +59,47 @@ class PrestoETL():
     }
 
     USAGE = """
-    python prestoetl.py <option> [arguments]
+        python prestoetl.py <option> [arguments]
 
-    for help
-    --------
-    python3 presto-etl.py -h
+        for help
+        --------
+        python3 presto-etl.py -h
 
-    example
-    -------
-    python3 presto-etl.py \\
-        --presto.host 10.10.22.5 \\
-        --presto.port 10300 \\
-        --presto.user dev \\
-        --presto.catalog dev_hive \\
-        --presto.schema ods_test \\
-        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/some_system \\
-        --sql.dir table_name \\
-        --sql.names create fully
+        example
+        -------
+        python3 presto-etl.py \\
+            --presto.host 10.10.22.5 \\
+            --presto.port 10300 \\
+            --presto.user dev \\
+            --presto.catalog dev_hive \\
+            --presto.schema ods_test \\
+            --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/some_system \\
+            --sql.dir table_name \\
+            --sql.names create fully
 
-    example for azkaban properties
-    ------------------------------
-    presto.host=10.10.22.5
-    presto.port=10300
-    presto.user=dev
-    presto.catalog=dev_hive
-    presto.schema=ods_test
-    git.branch=dev
-    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/some_system
-    sql.dir=table_name
-    sql.names=create fully
+        example for azkaban properties
+        ------------------------------
+        presto.host=10.10.22.5
+        presto.port=10300
+        presto.user=dev
+        presto.catalog=dev_hive
+        presto.schema=ods_test
+        git.branch=dev
+        sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/some_system
+        sql.dir=table_name
+        sql.names=create fully
 
-    python.etl.dir=/opt
+        python.etl.dir=/opt
 
-    cmd=python3 ${python.etl.dir}/presto-etl.py \\
-        --presto.host ${presto.host} \\
-        --presto.port ${presto.port} \\
-        --presto.user ${presto.user} \\
-        --presto.catalog ${presto.catalog} \\
-        --presto.schema ${presto.schema} \\
-        --sql.url.prefix ${sql.url.prefix} \\
-        --sql.dir ${sql.dir} \\
-        --sql.names ${sql.names}
+        cmd=python3 ${python.etl.dir}/presto-etl.py \\
+            --presto.host ${presto.host} \\
+            --presto.port ${presto.port} \\
+            --presto.user ${presto.user} \\
+            --presto.catalog ${presto.catalog} \\
+            --presto.schema ${presto.schema} \\
+            --sql.url.prefix ${sql.url.prefix} \\
+            --sql.dir ${sql.dir} \\
+            --sql.names ${sql.names}
     """
 
     def __init__(self):
@@ -138,7 +139,7 @@ class PrestoETL():
             '--presto.host', action='store', dest='presto_host',
             help="set presto host"
         )
-        parser.add_argument('--presto.port', action='store', dest='presto_port',type=int,  help="set presto port")
+        parser.add_argument('--presto.port', action='store', dest='presto_port', type=int,  help="set presto port")
         parser.add_argument('--presto.user', action='store', dest='presto_user', help="set presto user")
         parser.add_argument('--presto.catalog', action='store', dest='presto_catalog', help="set presto catalog")
         parser.add_argument('--presto.schema', action='store', dest='presto_schema', help="set presto schema")
@@ -394,7 +395,7 @@ class PrestoETL():
     
     def show_usage(self):
         if self.__args.usage is True:
-            print(PrestoETL.USAGE)
+            print(textwrap.dedent(PrestoETL.USAGE))
 
         
     def test(self):
