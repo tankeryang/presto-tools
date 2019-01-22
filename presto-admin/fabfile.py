@@ -1,3 +1,5 @@
+import os
+import logging
 import configparser
 from fabric import Connection, SerialGroup
 from invoke import task
@@ -6,7 +8,7 @@ from invoke import task
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-# set coordinato
+# set coordinator
 coordinator_connections = []
 coordinator_user = config['COORDINATOR'].pop('user')
 coordinator_password = config['COORDINATOR'].pop('password')
@@ -27,6 +29,44 @@ for host_key in config['WORKER'].keys():
     conn = Connection(host=host, user=worker_user, connect_kwargs={'password': worker_password})
     worker_connections.append(conn)
 worker_group = SerialGroup.from_connections(worker_connections)
+
+
+@task
+def backup(c, type):
+    if type == 'catalog':
+        logging.info("backup catalog..." + '='*60)
+        if os.path.exists('catalog.bak'):
+            os.rmdir('catalog.bak')
+        c.run('cp -r catalog catalog.bak')
+        logging.info("backup finish" + '='*60)
+
+
+@task
+def reload(c, type):
+    if type == 'catalog':
+
+        # remove catalog
+        logging.info("remove coordinator catalog..." + '='*60)
+        coordinator_group.run('rm ' + coordinator_catalog_path + '/*')
+        logging.info("remove finish" + '='*60)
+        logging.info("remove worker catalog..." + '='*60)
+        worker_group.run('rm ' + worker_catalog_path + '/*')
+        logging.info("remove finish" + '='*60)
+
+        # put new catalog
+        logging.info("put new catalog to coordinator..." + '='*60)
+        for conn in coordinator_group:
+            logging.info("[{}]:".format(conn.host))
+            for pwd, sub_dir, files in os.walk('catalog'):
+                for porperties in files:
+                    conn.put('catalog/{}'.format(porperties), coordinator_catalog_path)
+        
+        logging.info("put new catalog to worker..." + '='*60)
+        for conn in worker_group:
+            logging.info("[{}]:".format(conn.host))
+            for pwd, sub_dir, files in os.walk('catalog'):
+                for porperties in files:
+                    conn.put('catalog/{}'.format(porperties), worker_catalog_path)
 
 
 @task

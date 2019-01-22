@@ -8,6 +8,11 @@ zip/
 .DS_Store
 .vscode/
 **/venv/
+
+# presto-admin
+**/catalog/
+**/catalog.bak/
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
