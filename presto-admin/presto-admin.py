@@ -32,6 +32,10 @@ class PrestoAdmin():
 
         # test
         parser.add_argument('--uname', action='store_true', dest='uname', default=False, help="uname test")
+        parser.add_argument(
+            '--show-catalog', action='store_true', dest='show_catalog', default=False,
+            help="show catalog test"
+        )
 
         # # set presto coordinator hosts, password and catalog path
         # parser.add_argument(
@@ -84,7 +88,11 @@ class PrestoAdmin():
         if self.__args.uname is True:
             os.system('fab uname')
 
+    
+    def show_catalog(self):
+        if self.__args.show_catalog is True:
+            os.system('fab show_catalog')
+
 
 if __name__ == '__main__':
     presto_admin = PrestoAdmin()
-    presto_admin.uname()
