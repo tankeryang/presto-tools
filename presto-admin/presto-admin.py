@@ -26,6 +26,9 @@ class PrestoAdmin():
 
         parser.add_argument('--usage', action='store_true', dest='usage', default=False, help="show usage")
         parser.add_argument(
+            '--backup-catalog', action='store_true', dest='backup_catalog', default=False, help="backup catalog"
+        )
+        parser.add_argument(
             '--reload-catalog', action='store_true', dest='reload_catalog', default=False, help="reload catalog"
         )
 
@@ -80,6 +83,14 @@ class PrestoAdmin():
             self.show_catalog()
         if self.__args.uname is True:
             self.uname()
+
+
+    def backup_catalog(self):
+        """
+        backup catalog file
+        """
+        if self.__args.backup_catalog is True:
+            os.system('fab backup catalog')
 
 
     def reload_catalog(self):
