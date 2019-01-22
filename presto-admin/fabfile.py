@@ -39,4 +39,4 @@ def uname(c):
 @task
 def show_catalog(c):
     coordinator_group.run('ls -la ' + coordinator_catalog_path)
-    worker_group.run('ls -la' + worker_catalog_path)
+    worker_group.run('ls -la ' + worker_catalog_path)
