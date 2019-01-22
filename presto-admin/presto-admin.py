@@ -79,10 +79,10 @@ class PrestoAdmin():
 
 
     def __check_args(self):
-        if self.__args.show_catalog is True:
             self.show_catalog()
-        if self.__args.uname is True:
             self.uname()
+            self.backup_catalog()
+            self.reload_catalog()
 
 
     def backup_catalog(self):
