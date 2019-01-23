@@ -122,7 +122,7 @@ class PrestoAdmin():
 
     def show_usage(self):
         if self.__args.usage is True:
-            print(textwrap.dedent(PrestoETL.USAGE))
+            print(textwrap.dedent(PrestoAdmin.USAGE))
 
 
 if __name__ == '__main__':
