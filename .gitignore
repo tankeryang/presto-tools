@@ -12,6 +12,7 @@ zip/
 # presto-admin
 **/catalog/
 **/catalog.bak/
+**/config.ini
 
 # User-specific stuff
 .idea/**/workspace.xml
