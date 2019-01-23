@@ -16,10 +16,18 @@ azkaban 调度时只需配置好相关的参数即可
 
 ## help & usage
 
+- first of all
+
+```shell
+# cd to presto-tools directory
+> $ source venv/bin/activate
+(venv) > $ cd presto-etl
+```
+
 - help:
 
-```s
-$ python3 presto-etl.py -h
+```shell
+(venv) > $ python3 presto-etl.py -h
 
 usage: python3 presto-etl.py [-h] [--usage] [--presto.host PRESTO_HOST]
                              [--presto.port PRESTO_PORT]
@@ -64,48 +72,49 @@ optional arguments:
 
 - usage:
 
-```s
-$ python3 presto-etl.py --usage
+```shell
+(venv) > $ python3 presto-etl.py --usage
 
-    python prestoetl.py <option> [arguments]
+python3 presto-etl.py <option> [arguments]
 
-    for help
-    --------
-    python3 presto-etl.py -h
+for help
+--------
+python3 presto-etl.py -h
 
-    example
-    -------
-    python3 presto-etl.py \
-        --presto.host 10.10.22.5 \
-        --presto.port 10300 \
-        --presto.user dev \
-        --presto.catalog dev_hive \
-        --presto.schema ods_test \
-        --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/some_system \
-        --sql.dir table_name \
-        --sql.names create fully
+example
+-------
+python3 presto-etl.py \
+    --presto.host 10.10.22.5 \
+    --presto.port 10300 \
+    --presto.user dev \
+    --presto.catalog dev_hive \
+    --presto.schema ods_test \
+    --sql.url.prefix http://gitlab.company.com/group/repo/raw/branch/sql/etl/dwh/ods/some_system \
+    --sql.dir table_name \
+    --sql.names create fully
 
-    example for azkaban properties
-    ------------------------------
-    presto.host=10.10.22.5
-    presto.port=10300
-    presto.user=dev
-    presto.catalog=dev_hive
-    presto.schema=ods_test
-    git.branch=dev
-    sql.url.prefix=http://gitlab.company.com/group/repo/raw/${git.branch}/sql/etl/dwh/ods/some_system
-    sql.dir=table_name
-    sql.names=create fully
+example for azkaban properties
+------------------------------
+presto.host=10.10.22.5
+presto.port=10300
+presto.user=dev
+presto.catalog=dev_hive
+presto.schema=ods_test
+git.branch=dev
+sql.url.prefix=http://gitlab.company.com/group/repo/raw/{git.branch}/sql/etl/dwh/ods/some_system
+sql.dir=table_name
+sql.names=create fully
 
-    python.etl.dir=/opt
+python.interpreter=/program/presto-tools/venv/bin/python3
+python.etl.dir=/program/presto-tools/presto-etl
 
-    cmd=python3 ${python.etl.dir}/presto-etl.py \
-        --presto.host ${presto.host} \
-        --presto.port ${presto.port} \
-        --presto.user ${presto.user} \
-        --presto.catalog ${presto.catalog} \
-        --presto.schema ${presto.schema} \
-        --sql.url.prefix ${sql.url.prefix} \
-        --sql.dir ${sql.dir} \
-        --sql.names ${sql.names}
+cmd=${python.interpreter} ${python.etl.dir}/presto-etl.py \
+    --presto.host ${presto.host} \
+    --presto.port ${presto.port} \
+    --presto.user ${presto.user} \
+    --presto.catalog ${presto.catalog} \
+    --presto.schema ${presto.schema} \
+    --sql.url.prefix ${sql.url.prefix} \
+    --sql.dir ${sql.dir} \
+    --sql.names ${sql.names}
 ```
