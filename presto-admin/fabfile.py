@@ -47,11 +47,11 @@ def reload(c, type):
 
         # remove catalog
         logging.info("remove coordinator catalog..." + '='*60)
-        coordinator_group.run('rm -r ' + coordinator_catalog_path + '/*')
+        coordinator_group.run('rm -rf ' + coordinator_catalog_path + '/*')
         logging.info("remove finish" + '='*60)
 
         logging.info("remove worker catalog..." + '='*60)
-        worker_group.run('rm -r ' + worker_catalog_path + '/*')
+        worker_group.run('rm -rf ' + worker_catalog_path + '/*')
         logging.info("remove finish" + '='*60)
 
         # put new catalog
