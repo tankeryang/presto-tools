@@ -61,6 +61,7 @@ def reload(c, type):
             for pwd, sub_dir, files in os.walk('catalog'):
                 for file in files:
                     conn.put('catalog/{}'.format(file), coordinator_catalog_path)
+                break
         
         logging.info("put new catalog to worker..." + '='*60)
         for conn in worker_group:
@@ -68,6 +69,7 @@ def reload(c, type):
             for pwd, sub_dir, files in os.walk('catalog'):
                 for file in files:
                     conn.put('catalog/{}'.format(file), worker_catalog_path)
+                break
 
 
 @task
