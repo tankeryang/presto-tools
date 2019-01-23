@@ -73,13 +73,6 @@ def reload(c, type):
 
 
 @task
-def uname(c):
-    coordinator_group.run('uname -s')
-    worker_group.run('uname -s')
-    c.run('uname -s')
-
-
-@task
 def show(c, type):
     if type == 'catalog':
         coordinator_group.run('ls -la ' + coordinator_catalog_path)

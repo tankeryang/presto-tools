@@ -10,6 +10,19 @@ class PrestoAdmin():
     Presto 管理工具
     """
 
+    USAGE = """
+        python prestoetl.py <option> [arguments]
+
+        for help
+        --------
+        python presto-admin.py -h
+
+        example
+        -------
+        python presto-admin.py --usage: show usage
+    """
+
+
     def __init__(self):
         """
         初始化时将参数通过 self.__set_args() 绑定到 self.__args 变量上
@@ -31,12 +44,9 @@ class PrestoAdmin():
         parser.add_argument(
             '--reload-catalog', action='store_true', dest='reload_catalog', default=False, help="reload catalog"
         )
-
-        # test
-        parser.add_argument('--uname', action='store_true', dest='uname', default=False, help="uname test")
         parser.add_argument(
             '--show-catalog', action='store_true', dest='show_catalog', default=False,
-            help="show catalog test"
+            help="show catalog file"
         )
 
         # # set presto coordinator hosts, password and catalog path
@@ -80,9 +90,9 @@ class PrestoAdmin():
 
     def __check_args(self):
             self.show_catalog()
-            self.uname()
             self.backup_catalog()
             self.reload_catalog()
+            self.show_usage()
 
 
     def backup_catalog(self):
@@ -90,7 +100,9 @@ class PrestoAdmin():
         backup catalog file
         """
         if self.__args.backup_catalog is True:
+            logging.info("backuping catalog file...")
             os.system('fab backup catalog')
+            logging.info("backuping complete!")
 
 
     def reload_catalog(self):
@@ -98,17 +110,19 @@ class PrestoAdmin():
         reload catalog file
         """
         if self.__args.reload_catalog is True:
+            logging.info("reloading catalog file...")
             os.system('fab reload catalog')
-
-
-    def uname(self):
-        if self.__args.uname is True:
-            os.system('fab uname')
+            logging.info("reloading complete!")
 
     
     def show_catalog(self):
         if self.__args.show_catalog is True:
             os.system('fab show catalog')
+
+
+    def show_usage(self):
+        if self.__args.usage is True:
+            print(textwrap.dedent(PrestoETL.USAGE))
 
 
 if __name__ == '__main__':
