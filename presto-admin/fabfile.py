@@ -1,4 +1,5 @@
 import os
+import shutil
 import logging
 import configparser
 from fabric import Connection, SerialGroup
@@ -36,7 +37,7 @@ def backup(c, type):
     if type == 'catalog':
         logging.info("backup catalog..." + '='*60)
         if os.path.exists('catalog.bak'):
-            os.rmdir('catalog.bak')
+            shutil.rmtree('catalog.bak')
         c.run('cp -r catalog catalog.bak')
         logging.info("backup finish" + '='*60)
 
