@@ -47,10 +47,11 @@ def reload(c, type):
 
         # remove catalog
         logging.info("remove coordinator catalog..." + '='*60)
-        coordinator_group.run('rm ' + coordinator_catalog_path + '/*')
+        coordinator_group.run('rm -r ' + coordinator_catalog_path + '/*')
         logging.info("remove finish" + '='*60)
+
         logging.info("remove worker catalog..." + '='*60)
-        worker_group.run('rm ' + worker_catalog_path + '/*')
+        worker_group.run('rm -r ' + worker_catalog_path + '/*')
         logging.info("remove finish" + '='*60)
 
         # put new catalog
@@ -58,15 +59,15 @@ def reload(c, type):
         for conn in coordinator_group:
             logging.info("[{}]:".format(conn.host))
             for pwd, sub_dir, files in os.walk('catalog'):
-                for porperties in files:
-                    conn.put('catalog/{}'.format(porperties), coordinator_catalog_path)
+                for file in files:
+                    conn.put('catalog/{}'.format(file), coordinator_catalog_path)
         
         logging.info("put new catalog to worker..." + '='*60)
         for conn in worker_group:
             logging.info("[{}]:".format(conn.host))
             for pwd, sub_dir, files in os.walk('catalog'):
-                for porperties in files:
-                    conn.put('catalog/{}'.format(porperties), worker_catalog_path)
+                for file in files:
+                    conn.put('catalog/{}'.format(file), worker_catalog_path)
 
 
 @task
