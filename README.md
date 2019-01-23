@@ -27,3 +27,11 @@
 > $ virtualenv -p <path-to-python3-interpreter> --no-site-packages venv
 > $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
 ```
+
+### git (on `https://github.com`)
+
+```shell
+> $ git clone https://github.com/tankeryang/presto-tools.git
+> $ virtualenv -p <path-to-python3-interpreter> --no-site-packages venv
+> $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
+```
