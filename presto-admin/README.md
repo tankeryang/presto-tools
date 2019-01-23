@@ -16,13 +16,13 @@
 
 进行 catalog 的管理之前，先做好当前 catalog 的备份工作，将 presto 的`catalog`文件夹拷贝到`presto-admin`目录下，__ali-emr__ 的话，就将 __header__ 里的 catalog 文件夹`scp`到`presto-admin`目录下(脚本工具统一放 __gateway__)
 
-接下来进行配置工作，在`presto-admin`下新建`config.ini`文件，配置`COORDINATOR`和`WORKER`的相关属性，目前配置如下
+接下来进行配置工作，在`presto-admin`下新建`config.ini`文件，配置`COORDINATOR`和`WORKER`的相关属性，目前可供配置如下
 
 ```ini
 [COORDINATOR]
 host1 = emr-header-1
-user = root
-password = JTZ^kW18xL
+user = # set your user name
+password = # set your passwoed
 catalog_path = /etc/ecm/presto-conf/catalog
 
 [WORKER]
@@ -31,8 +31,8 @@ host2 = emr-worker-2
 host3 = emr-worker-3
 host4 = emr-worker-4
 host5 = emr-worker-5
-user = root
-password = wT0^Bx2BCe
+user = # set your user name
+password = # set your passwoed
 catalog_path = /etc/ecm/presto-conf/catalog
 ```
 
