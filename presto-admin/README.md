@@ -52,7 +52,7 @@ catalog_path = /etc/ecm/presto-conf/catalog
 (venv) > $ python3 presto-admin.py -h
 
 usage: python3 presto-admin.py [-h] [--usage] [--backup-catalog]
-                               [--reload-catalog] [--show-catalog]
+                               [--reload-catalog] [--list-catalog]
 
 This is a python manage script
 
@@ -61,7 +61,7 @@ optional arguments:
   --usage           show usage
   --backup-catalog  backup catalog
   --reload-catalog  reload catalog
-  --show-catalog    show catalog file
+  --list-catalog    list catalog file
 ```
 
 - usage:
