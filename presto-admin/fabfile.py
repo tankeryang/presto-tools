@@ -1,8 +1,13 @@
 import os
 import shutil
+import logging
 import configparser
 from fabric import Connection, SerialGroup
 from invoke import task
+
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 # load config
 config = configparser.ConfigParser()
@@ -50,19 +55,23 @@ def reload(c, type):
         # put new catalog
         for conn in coordinator_group:
             for pwd, sub_dir, files in os.walk('catalog'):
+                logging.info("[{}]: reloading...".format(conn))
                 for file in files:
                     conn.put('catalog/{}'.format(file), coordinator_catalog_path)
+                logging.info("[{}]: reload complete!".format(conn))
                 break
         
         for conn in worker_group:
             for pwd, sub_dir, files in os.walk('catalog'):
+                logging.info("[{}]: reloading...".format(conn))
                 for file in files:
                     conn.put('catalog/{}'.format(file), worker_catalog_path)
+                logging.info("[{}]: reload complete!".format(conn))
                 break
 
 
 @task
 def show(c, type):
     if type == 'catalog':
-        coordinator_group.run('ls -la ' + coordinator_catalog_path)
-        worker_group.run('ls -la ' + worker_catalog_path)
+        coordinator_group.run('ls -lah ' + coordinator_catalog_path)
+        worker_group.run('ls -lah ' + worker_catalog_path)
