@@ -5,7 +5,7 @@ import logging
 import textwrap
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 class PrestoAdmin():
