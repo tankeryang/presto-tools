@@ -46,8 +46,8 @@ class PrestoAdmin():
             '--reload-catalog', action='store_true', dest='reload_catalog', default=False, help="reload catalog"
         )
         parser.add_argument(
-            '--show-catalog', action='store_true', dest='show_catalog', default=False,
-            help="show catalog file"
+            '--list-catalog', action='store_true', dest='list_catalog', default=False,
+            help="list catalog file"
         )
 
         # # set presto coordinator hosts, password and catalog path
@@ -90,7 +90,7 @@ class PrestoAdmin():
 
 
     def __check_args(self):
-            self.show_catalog()
+            self.list_catalog()
             self.backup_catalog()
             self.reload_catalog()
             self.show_usage()
@@ -116,9 +116,11 @@ class PrestoAdmin():
             logging.info("reloading complete!")
 
     
-    def show_catalog(self):
-        if self.__args.show_catalog is True:
+    def list_catalog(self):
+        if self.__args.list_catalog is True:
+            logging.info("list catalog file...")
             os.system('fab show catalog')
+            logging.info("list complete!")
 
 
     def show_usage(self):
