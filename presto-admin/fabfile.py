@@ -1,6 +1,5 @@
 import os
 import shutil
-import logging
 import configparser
 from fabric import Connection, SerialGroup
 from invoke import task
@@ -35,11 +34,9 @@ worker_group = SerialGroup.from_connections(worker_connections)
 @task
 def backup(c, type):
     if type == 'catalog':
-        logging.info("backup catalog..." + '='*60)
         if os.path.exists('catalog.bak'):
             shutil.rmtree('catalog.bak')
         c.run('cp -r catalog catalog.bak')
-        logging.info("backup finish" + '='*60)
 
 
 @task
@@ -47,26 +44,17 @@ def reload(c, type):
     if type == 'catalog':
 
         # remove catalog
-        logging.info("remove coordinator catalog..." + '='*60)
         coordinator_group.run('rm -rf ' + coordinator_catalog_path + '/*')
-        logging.info("remove finish" + '='*60)
-
-        logging.info("remove worker catalog..." + '='*60)
         worker_group.run('rm -rf ' + worker_catalog_path + '/*')
-        logging.info("remove finish" + '='*60)
 
         # put new catalog
-        logging.info("put new catalog to coordinator..." + '='*60)
         for conn in coordinator_group:
-            logging.info("[{}]:".format(conn.host))
             for pwd, sub_dir, files in os.walk('catalog'):
                 for file in files:
                     conn.put('catalog/{}'.format(file), coordinator_catalog_path)
                 break
         
-        logging.info("put new catalog to worker..." + '='*60)
         for conn in worker_group:
-            logging.info("[{}]:".format(conn.host))
             for pwd, sub_dir, files in os.walk('catalog'):
                 for file in files:
                     conn.put('catalog/{}'.format(file), worker_catalog_path)
