@@ -6,7 +6,7 @@ from fabric import Connection, SerialGroup
 from invoke import task
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 # load config
