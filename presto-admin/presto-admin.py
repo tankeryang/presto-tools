@@ -42,15 +42,15 @@ class PrestoAdmin():
         """
         parser = argparse.ArgumentParser(prog="python3 presto-admin.py", description="This is a python manage script")
 
-        parser.add_argument('--usage', action='store_true', dest='usage', default=False, help="show usage")
+        parser.add_argument('--usage', '-u', action='store_true', dest='usage', default=False, help="show usage")
         parser.add_argument(
-            '--backup-catalog', action='store_true', dest='backup_catalog', default=False, help="backup catalog"
+            '--backup-catalog', '-bc', action='store_true', dest='backup_catalog', default=False, help="backup catalog"
         )
         parser.add_argument(
-            '--reload-catalog', action='store_true', dest='reload_catalog', default=False, help="reload catalog"
+            '--reload-catalog', '-rc', action='store_true', dest='reload_catalog', default=False, help="reload catalog"
         )
         parser.add_argument(
-            '--list-catalog', action='store_true', dest='list_catalog', default=False,
+            '--list-catalog', '-lc', action='store_true', dest='list_catalog', default=False,
             help="list catalog file"
         )
 
