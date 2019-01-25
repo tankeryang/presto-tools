@@ -8,7 +8,7 @@ from invoke import task
 
 
 # Create a logger object.
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('presto-admin')
 coloredlogs.install(level='INFO', logger=logger)
 
 

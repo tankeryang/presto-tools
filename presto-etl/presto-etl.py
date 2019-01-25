@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 
 
 # Create a logger object.
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('presto-etl')
 coloredlogs.install(level='INFO', logger=logger)
 
 
