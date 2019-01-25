@@ -1,17 +1,20 @@
 import os
 import shutil
 import logging
-import configparser
+import coloredlogs, logging
 from fabric import Connection, SerialGroup
 from invoke import task
 
 
-logging.basicConfig(level=logging.INFO)
+# Create a logger object.
+logger = logging.getLogger(__name__)
+coloredlogs.install(level='INFO', logger=logger)
 
 
 # load config
 config = configparser.ConfigParser()
 config.read('config.ini')
+
 
 # set coordinator
 coordinator_connections = []
@@ -55,18 +58,18 @@ def reload(c, type):
         # put new catalog
         for conn in coordinator_group:
             for pwd, sub_dir, files in os.walk('catalog'):
-                logging.info("[{}]: reloading...".format(conn))
+                logger.info("[{}]: reloading...".format(conn))
                 for file in files:
                     conn.put('catalog/{}'.format(file), coordinator_catalog_path)
-                logging.info("[{}]: reload complete!".format(conn))
+                logger.info("[{}]: reload complete!".format(conn))
                 break
         
         for conn in worker_group:
             for pwd, sub_dir, files in os.walk('catalog'):
-                logging.info("[{}]: reloading...".format(conn))
+                logger.info("[{}]: reloading...".format(conn))
                 for file in files:
                     conn.put('catalog/{}'.format(file), worker_catalog_path)
-                logging.info("[{}]: reload complete!".format(conn))
+                logger.info("[{}]: reload complete!".format(conn))
                 break
 
 

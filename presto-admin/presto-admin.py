@@ -1,11 +1,13 @@
 import os
 import sys
 import argparse
-import logging
 import textwrap
+import coloredlogs, logging
 
 
-logging.basicConfig(level=logging.INFO)
+# Create a logger object.
+logger = logging.getLogger(__name__)
+coloredlogs.install(level='INFO', logger=logger)
 
 
 class PrestoAdmin():
@@ -103,9 +105,9 @@ class PrestoAdmin():
         backup catalog file
         """
         if self.__args.backup_catalog is True:
-            logging.info("backuping catalog file...")
+            logger.info("backuping catalog file...")
             os.system('fab backup catalog')
-            logging.info("backuping complete!")
+            logger.info("backuping complete!")
 
 
     def reload_catalog(self):
@@ -113,16 +115,16 @@ class PrestoAdmin():
         reload catalog file
         """
         if self.__args.reload_catalog is True:
-            logging.info("reloading catalog file...")
+            logger.info("reloading catalog file...")
             os.system('fab reload catalog')
-            logging.info("reloading complete!")
+            logger.info("reloading complete!")
 
     
     def list_catalog(self):
         if self.__args.list_catalog is True:
-            logging.info("list catalog file...")
+            logger.info("list catalog file...")
             os.system('fab show catalog')
-            logging.info("list complete!")
+            logger.info("list complete!")
 
 
     def show_usage(self):

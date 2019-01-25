@@ -4,3 +4,4 @@ sqlalchemy==1.2.11
 pyhive==0.6.1
 presto-python-client==0.5.1
 Fabric==2.4.0
+coloredlogs==10.0
