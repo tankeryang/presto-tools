@@ -59,23 +59,25 @@ def reload(c, type):
         # put new catalog
         for conn in coordinator_group:
             for pwd, sub_dir, files in os.walk('catalog'):
-                logger.info("[{}]: reloading...".format(conn))
+                logger.info("[{}]: reloading...".format(conn.host))
                 for file in files:
                     conn.put('catalog/{}'.format(file), coordinator_catalog_path)
-                logger.info("[{}]: reload complete!".format(conn))
+                logger.info("[{}]: reload complete!".format(conn.host))
                 break
         
         for conn in worker_group:
             for pwd, sub_dir, files in os.walk('catalog'):
-                logger.info("[{}]: reloading...".format(conn))
+                logger.info("[{}]: reloading...".format(conn.host))
                 for file in files:
                     conn.put('catalog/{}'.format(file), worker_catalog_path)
-                logger.info("[{}]: reload complete!".format(conn))
+                logger.info("[{}]: reload complete!".format(conn.host))
                 break
 
 
 @task
 def show(c, type):
     if type == 'catalog':
+        logger.info("list coordinator catalog file...")
         coordinator_group.run('ls -lah ' + coordinator_catalog_path)
+        logger.info("list worker catalog file...")
         worker_group.run('ls -lah ' + worker_catalog_path)
