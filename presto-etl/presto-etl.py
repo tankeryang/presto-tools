@@ -1,13 +1,18 @@
 import os
 import sys
 import argparse
-import logging
 import prestodb
 import requests
 import textwrap
 import pandas as pd
 import itertools as it
+import coloredlogs, logging
 from sqlalchemy import create_engine
+
+
+# Create a logger object.
+logger = logging.getLogger(__name__)
+coloredlogs.install(level='INFO', logger=logger)
 
 
 class PrestoETL():
@@ -184,7 +189,7 @@ class PrestoETL():
         # check necesary arguments
         for necessary_arg in PrestoETL.NECESSARY_ARGS.values():
             if self.__args_dict[necessary_arg] is None:
-                logging.error(
+                logger.error(
                     "Please provide all necessary arguments: {}".format(str(list(PrestoETL.NECESSARY_ARGS.keys())))
                 )
                 sys.exit(1)
@@ -238,7 +243,7 @@ class PrestoETL():
         if response.status_code == 200:
             return response.text.strip('\n').strip()
         else:
-            logging.error("{sql_url}: {status_code}, {reason}".format(
+            logger.error("{sql_url}: {status_code}, {reason}".format(
                     sql_url=sql_url, status_code=response.status_code, reason=response.reason
                 ))
             sys.exit(1)
@@ -312,7 +317,7 @@ class PrestoETL():
 
                 # 判断参数是否正确
                 if len(pc_list) < 2:
-                    logging.error("--placeholder.config error. the args form must be <sql_name>:<placeholder_sql_name>")
+                    logger.error("--placeholder.config error. the args form must be <sql_name>:<placeholder_sql_name>")
                     sys.exit(0)
                 
                 sql_name = pc_list[0]
