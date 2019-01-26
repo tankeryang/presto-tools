@@ -256,7 +256,7 @@ class PrestoETL():
         .. note:
             self.__sql_file 为 dict 类型，格式为 {sql_name: sql_text}
         """
-        print("Following sql file will be executed: " + list(map(lambda x: x + '.sql', self.__args.sql_name)))
+        print("Following sql file will be executed: " + list(map(lambda x: x + '.sql', self.__args.sql_names)))
         for sql_name in self.__args.sql_names:
             self.__sql_file[sql_name] = self.get_sql(sql_name)
 
