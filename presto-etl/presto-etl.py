@@ -256,9 +256,8 @@ class PrestoETL():
         .. note:
             self.__sql_file 为 dict 类型，格式为 {sql_name: sql_text}
         """
-        print(self.__args.sql_names)
+        print("Following sql file will be executed: " + list(map(lambda x: x + '.sql', self.__args.sql_name)))
         for sql_name in self.__args.sql_names:
-            print(sql_name)
             self.__sql_file[sql_name] = self.get_sql(sql_name)
 
 
@@ -276,6 +275,7 @@ class PrestoETL():
                 print(sql)
                 presto_cursor.execute(sql)
                 print("Results: " + str(presto_cursor.fetchall()))
+                print("\n" + "="*100)
             else:
                 pass
 
@@ -381,7 +381,6 @@ class PrestoETL():
         
         self.get_sql_file()
         self.get_placeholder_config(presto_engine)
-        print(self.__sql_file.keys())
         if len(self.__placeholder_config) != 0:
             self.get_placeholder_group()
 
