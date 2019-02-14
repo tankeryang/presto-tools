@@ -1,42 +1,21 @@
-# basic-build
+# presto-tools
 
-> 数据平台基础工具
+> presto command line tools collection
 
-目前使用的脚本工具有:
+Following cli tools are avaliable to use:
 
-- presto-etl
+- __presto-etl__: a python cli script to execute ETL SQL
 
-- presto-admin
-
-脚本工具统一放在 __gateway__ 上
+- __presto-admin__: a python cli script to manage presto cluster
 
 ## Installation
 
-### git (on `http://gitlab.fp.bd14.com`)
-
-```shell
-> $ git clone http://gitlab.fp.bd14.com/bigdata/basic-build.git
-> $ cd basic-build
-> $ virtualenv -p <path-to-python3-interpreter> --no-site-packages venv
-> $ source venv/bin/activate
-(venv) > $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
-```
-
-### git (on `https://code.aliyun.com`)
-
-```shell
-> $ git clone https://code.aliyun.com/trendy-bigdata/presto-tools
-> $ cd presto-tools
-> $ virtualenv -p <path-to-python3-interpreter> --no-site-packages venv
-> $ source venv/bin/activate
-(venv) > $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
-```
-
-### git (on `https://github.com`)
+### git clone
 
 ```shell
 > $ git clone https://github.com/tankeryang/presto-tools.git
 > $ cd presto-tools
+# path-to-python3-interpreter is the path to python3 interpreter :) e.g. /usr/local/bin/python3.6
 > $ virtualenv -p <path-to-python3-interpreter> --no-site-packages venv
 > $ source venv/bin/activate
 (venv) > $ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt

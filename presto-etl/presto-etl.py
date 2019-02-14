@@ -15,7 +15,7 @@ logger = logging.getLogger('presto-etl')
 coloredlogs.install(level='INFO', logger=logger)
 
 
-class PrestoETL():
+class PrestoETL:
     """
     Presto ETL 工具类
 
@@ -227,7 +227,7 @@ class PrestoETL():
         ))
 
 
-    def get_sql(self, sql_name):
+    def get_sql(self, sql_name: str):
         """
         获取 sql_name 对应的 sql 脚本内容
 
