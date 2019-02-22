@@ -12,7 +12,7 @@
 (venv) > $ cd presto-admin
 ```
 
-进行 catalog 的管理之前，先做好当前 catalog 的备份工作，__将 presto 的`catalog`文件夹拷贝到`presto-admin`目录下__，__ALI-EMR 集群__ 的话，就将 __header__ 里的 catalog 文件夹`scp`到`presto-admin`目录下 (脚本工具统一放 __gateway__)
+进行 catalog 的管理之前，先做好当前 catalog 的备份工作，__将 presto 的`catalog`文件夹拷贝到`presto-admin`目录下__
 
 接下来进行配置工作，在`presto-admin`下新建`config.ini`文件，配置`COORDINATOR`和`WORKER`的相关属性，目前可供配置如下
 
